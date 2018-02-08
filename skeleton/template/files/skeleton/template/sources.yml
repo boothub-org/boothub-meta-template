@@ -1,0 +1,18 @@
+\{{#each modules}}
+--- !!org.boothub.context.SourceContext
+artifact: \{{artifact}}
+fileContexts:
+    - !!org.boothub.context.SourceFileContext
+      fileName: JavaMain.java
+      targetBaseDir: src/main/java
+      targetPackage: \{{basePackage}}
+      targetFileClass: \{{appMainClass}}
+      enabled: \{{and appMainClass (compare artifact '==' appModule.artifact)}}
+
+    - !!org.boothub.context.SourceFileContext
+      fileName: JavaUtil.java
+      targetBaseDir: src/main/java
+      targetPackage: \{{basePackage}}
+      targetFileClass: \{{artifactAsClassName}}Util
+      enabled: \{{or (not appMainClass) (compare artifact '!=' appModule.artifact)}}
+\{{/each}}

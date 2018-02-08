@@ -1,0 +1,21 @@
+id: {{templateId}}
+name: {{projectName}}
+caption: {{templateCaption}}
+
+version:
+  major: {{versionMajor}}
+  minor: {{versionMinor}}
+  patch: {{versionPatch}}
+
+minimumRequiredBootHub:
+  major: 1
+  minor: 0
+  patch: 0
+
+# homepage: http://example.org
+
+# authors:
+#  - Jane Doe
+
+# tags:
+#  - java

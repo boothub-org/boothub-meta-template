@@ -1,0 +1,88 @@
+--- !!org.boothub.context.FileContext
+filePath: ___gitignore
+targetPath: .gitignore
+
+
+####################
+### Gradle files ###
+####################
+
+--- !!org.boothub.context.FileContext
+filePath: gradle
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: build.gradle
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: gradle.properties
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: gradlew
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: gradlew.bat
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: gradle/wrapper
+enabled: {{gradleBased}}
+
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradle
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/build.gradle
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradle.properties
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradlew
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradlew.bat
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradle/wrapper
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/settings.gradle
+enabled: {{and gradleBased (compare modularity '!=' 'SINGLE')}}
+
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files-src
+enabled: {{mavenCompatible}}
+
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/sources.yml
+enabled: {{mavenCompatible}}
+
+
+
+####################
+### Source files ###
+####################
+--- !!org.boothub.context.FileContext
+filePath: src/TemplateSpec.groovy
+targetPath: src/test/groovy/{{replace templatePackage "." "/"}}/{{projectNameAsJavaClass}}Spec
+enabled: {{gradleBased}}
+
+--- !!org.boothub.context.FileContext
+filePath: src/MainContext.groovy
+targetPath: skeleton/template/script/{{replace templatePackage "." "/"}}/context/MainContext.groovy
+
+--- !!org.boothub.context.FileContext
+filePath: src/InfoContext.groovy
+targetPath: skeleton/template/script/{{replace templatePackage "." "/"}}/context/InfoContext.groovy

@@ -1,0 +1,221 @@
+{{~def 'prjId' (asJavaId ghProjectId)~}}
+{{~#def 'githubProjectUrl'}}https://github.com/{{ghProjectOwner}}/{{ghProjectId}}{{/def~}}
+{{~#def 'githubRepoUrl'}}{{githubProjectUrl}}.git{{/def~}}
+import org.yaml.snakeyaml.Yaml
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'org.yaml:snakeyaml:1.19'
+    }
+}
+
+plugins {
+    id 'groovy'
+    id 'eclipse'
+    id 'idea'
+    id "com.github.ethankhall.semantic-versioning" version "1.1.0"
+    id "com.github.ben-manes.versions" version "0.13.0"
+    id "org.asciidoctor.convert" version "1.5.3"
+    id "org.ajoberstar.git-publish" version "0.3.2"
+    id "com.github.hierynomus.license" version "0.12.1"
+    id "net.saliman.properties" version "1.4.6"
+    id 'com.github.jk1.dependency-license-report' version '0.3.8'
+}
+
+project.version.with {
+    major = {{prjId}}VersionMajor as int
+    minor= {{prjId}}VersionMinor as int
+    patch = {{prjId}}VersionPatch as int
+    if (project.hasProperty('{{prjId}}VersionLabel')) {
+        preRelease = {{prjId}}VersionLabel
+    }
+    releaseBuild = Boolean.valueOf({{prjId}}ReleaseBuild)
+}
+ext.{{prjId}}Version = project.version as String
+ext.{{prjId}}Tag = Boolean.valueOf({{prjId}}ReleaseBuild) ? "v$ext.{{prjId}}Version" : 'master'
+
+def pomConfig = {
+    url "{{githubProjectUrl}}"
+    developers {
+        {{~#each developers}}
+        developer {
+            id "{{id}}"
+            name "{{name}}"
+            {{~#if email}}
+            email "{{email}}"{{/if}}
+        }
+        {{~/each}}
+    }
+    scm {
+        connection "{{githubRepoUrl}}"
+        developerConnection "{{githubRepoUrl}}"
+        url "{{githubProjectUrl}}"
+    }
+}
+
+ext.groovyVersion = '2.4.12'
+
+version = {{prjId}}Version
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+sourceCompatibility = 1.8
+
+def defaultEncoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
+
+[compileGroovy, compileTestGroovy]*.options*.encoding = defaultEncoding
+[compileGroovy, compileTestGroovy]*.groovyOptions*.encoding = defaultEncoding
+
+sourceSets.main.java.srcDirs = []
+sourceSets.main.groovy.srcDirs = ["src/main/java", "src/main/groovy"]
+sourceSets.test.resources.srcDirs += 'skeleton'
+
+configurations {
+    compile { transitive = true }
+}
+
+license {
+    header rootProject.file("license-header.txt")
+    skipExistingHeaders true
+    ignoreFailures false
+    excludes(["**/*.zip", "**/*.yml", "**/*.properties", 'template/**'])
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile 'cglib:cglib-nodep:3.2.4'
+    testCompile 'org.objenesis:objenesis:2.4'
+    testCompile('com.athaydes:spock-reports:1.2.13') { transitive = false }
+
+    testCompile('ch.qos.logback:logback-classic:1.1.7')
+
+    testCompile("org.boothub:boothub-core:$boothubVersion")
+    testCompile("org.boothub:boothub-gradle-test:$boothubVersion")
+    testCompile gradleTestKit()
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': "${project.archivesBaseName}",
+                'Implementation-Version': {{prjId}}Version
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives(sourcesJar)
+}
+
+task "create-dirs" {
+    doLast {
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.groovy.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    }
+}
+
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
+                jre.accessRules.add(new org.gradle.plugins.ide.eclipse.model.AccessRule('0', 'javafx/**'))
+            }
+        }
+    }
+    project {
+        file.beforeMerged { project ->
+            project.natures.clear()
+        }
+    }
+}
+
+asciidoctor {
+    sourceDir = file("doc")
+    sources { include 'index.adoc' }
+    logDocuments = true
+    attributes 'source-highlighter': 'coderay',
+            'coderay-linenums-mode': 'table',
+            icons: 'font',
+            imagesdir: 'img',
+            'data-uri': '',
+            linkattrs: true,
+            linkcss: true,
+            'git-tag': {{prjId}}Tag,
+    'blob-root-master': "https://github.com/{{ghProjectOwner}}/{{ghProjectId}}/blob/master",
+    'blob-root': "https://github.com/{{ghProjectOwner}}/{{ghProjectId}}/blob/${{prjId}}Tag"
+}
+
+gitPublish {
+    System.properties['org.ajoberstar.grgit.auth.username'] = System.getenv('GH_PAGES_ACCESS_TOKEN') ?: ''
+    System.properties['org.ajoberstar.grgit.auth.password'] = ''
+
+    repoUri = '{{githubRepoUrl}}'
+    branch = 'gh-pages'
+
+    contents {
+        def pgType = project.hasProperty('ghPageType') ? ghPageType : 'latest'
+        if (pgType == 'init') {
+            from file("ghpages")
+        } else if (pgType == 'list') {
+            from file("build/release-list")
+        } else {
+            from file("${asciidoctor.outputDir.path}/html5")
+            from file("build/docs")
+        }
+        def docDir = Boolean.valueOf({{prjId}}ReleaseBuild) ? 'releases' : 'snapshots'
+        if (pgType == 'init') {
+            into "."
+        } else if (pgType == 'list') {
+            into "."
+            preserve {
+                include '**'
+                exclude "releases.md"
+            }
+        } else if (pgType == 'version') {
+            gitPublishPush.enabled = (docDir != 'snapshots')
+            into "$docDir/${{prjId}}Version"
+
+            preserve {
+                include '**'
+                exclude "$docDir/${{prjId}}Version"
+            }
+        } else {
+            into "$docDir/latest"
+
+            preserve {
+                include '**'
+                exclude "$docDir/latest"
+            }
+        }
+    }
+}
+
+task checkInfoVersion {
+    doLast {
+        def props = new Yaml().load(new FileInputStream('skeleton/info.yml'))
+        def infoVersion = props?.version?.major + '.' + props?.version?.minor + '.' + props?.version?.patch
+        def prjVersion = {{prjId}}VersionMajor + '.' + {{prjId}}VersionMinor + '.' + {{prjId}}VersionPatch
+        if(infoVersion != prjVersion) throw new InvalidUserDataException("Different versions found in gradle.properties ($prjVersion) and info.yml ($infoVersion).")
+    }
+}
+processResources.dependsOn checkInfoVersion

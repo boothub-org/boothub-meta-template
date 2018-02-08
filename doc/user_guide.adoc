@@ -1,0 +1,100 @@
+[[user_guide]]
+= User Guide
+
+After generating the project skeleton and creating a working copy on your computer, you can build the project with:
+
+----
+gradlew build
+----
+
+You can also build an uncompressed distribution by executing:
+----
+gradlew installDist
+----
+
+Let us consider that your project is called `my-project` and your main application class is named `MyApp`.
+Then, running the start script found in the `build/install/myProject/bin` directory, the following text should appear on your terminal:
+----
+Hello from MyApp!
+----
+
+[[idea]]
+== IntelliJ Idea
+
+- start the IntelliJ Idea IDE
+- open _build.gradle_
+
+
+[[eclipse]]
+== Eclipse
+
+- start the Eclipse IDE
+- install a recent version of https://projects.eclipse.org/projects/tools.buildship[Buildship]
+- import the project using the Gradle Project wizard
+
+[[versioning]]
+== Versioning
+
+The file `gradle.properties` contains variables that are used to create a version string conforming to the https://semver.org[semantic versioning] standard.
+The names of these variables are prefixed by the camelCase representation of the project name, for example:
+`myProjectVersionMajor`, `myProjectVersionMinor`, `myProjectVersionPatch`.
+
+Additionally, a boolean variable (named for example `myProjectReleaseBuild`) is used to specify whether the current build represents a release or a snapshot.
+
+By editing the values of these variables you can change the version of your project.
+
+For example, to bump your project version to `1.2.3-SNAPSHOT`, your `gradle.properties` should contain:
+----
+myProjectVersionMajor = 1
+myProjectVersionMinor = 2
+myProjectVersionPatch = 3
+myProjectReleaseBuild = false
+----
+
+== License header check
+
+The Gradle build script uses the https://github.com/hierynomus/license-gradle-plugin[license-gradle-plugin]
+to check if your source files include the header provided in the `license-header.txt` file.
+
+== Publishing to JCenter and Maven Central
+
+The Gradle task `bintrayUpload` lets you publish your artifacts to https://bintray.com/[Bintray].
+You can then https://bintray.com/docs/usermanual/uploads/uploads_centralrepositories.html#_including_your_package_in_jcenter[include your packages in JCenter]
+and https://bintray.com/docs/usermanual/uploads/uploads_syncingwiththirdpartyplatforms.html#_syncing_artifacts_with_maven_central[synchronize them with Maven Central].
+
+Before being able to execute the `bintrayUpload` task, you need to configure your credentials.
+
+=== Credentials
+Your Gradle build script uses the https://github.com/stevesaliman/gradle-properties-plugin[gradle-properties-plugin],
+which allows you to configure additional project properties in the `gradle-local.properties` file.
+
+This is the file in which you should configure your credentials.
+Since `gradle-local.properties` is already listed in your project's `.gitignore` file, your credentials will not be committed to git.
+
+To create this file you can simply copy the provided template file `gradle-local-template.properties` to `gradle-local.properties`.
+The content of this file is shown below:
+----
+signingKeyId = A0B1C2D3
+signingSecretKeyRingFile = C:/dev/gpg/jsmith.gpg
+
+bintrayUser = jsmith
+bintrayKey = a0b1c2d3e4f5a0b1c2d3e4f5a0b1c2d3e4f5a0b1
+----
+
+You need to configure the appropriate values for the above properties, which are used for signing your artifacts and for granting you access to Bintray.
+
+The signatory credentials consist of:
+
+* the public key ID (an 8 character hexadecimal string)
+* the absolute path to the secret key ring file containing your private key
+* the passphrase used to protect your private key
+
+The passphrase of your private key is a very sesnsitive information, therefore it is not stored in the `gradle-local.properties`.
+Instead, Gradle will ask you to enter it each time you execute the `bintrayUpload` task.
+
+See the https://www.gnupg.org/documentation/howtos.html[GnuPG documentation] and the
+https://docs.gradle.org/current/userguide/signing_plugin.html[Gradle signing plugin] for details on how to create and configure your signatures.
+
+The Bintray credentials consist of your Bintray user name and your
+https://bintray.com/docs/usermanual/interacting/interacting_interacting.html#anchorAPIKEY[Bintray API Key].
+See the documentation of the https://github.com/bintray/gradle-bintray-plugin[gradle-bintray-plugin] for more details.

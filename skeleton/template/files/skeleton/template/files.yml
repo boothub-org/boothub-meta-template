@@ -1,0 +1,9 @@
+--- !!org.boothub.context.FileContext
+filePath: ___gitignore
+targetPath: .gitignore
+
+{{#ifb (and gradleBased (compare modularity '==' 'BOTH'))~}}
+--- !!org.boothub.context.FileContext
+filePath: settings.gradle
+enabled: \{{multiModule}}
+{{/ifb}}

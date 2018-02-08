@@ -1,0 +1,7 @@
+--- !!org.example.myproject.context.MainContext
+
+ghUserId: myUser
+ghProjectOwner: myOrg
+ghProjectId: my-simple-project
+projectName: My Simple Project
+# projectPageUrl: http://my-simple-project.example.org

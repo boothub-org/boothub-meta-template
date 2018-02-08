@@ -1,0 +1,244 @@
+\{{~def 'prjId' (asJavaId ghProjectId)~}}
+\{{~#def 'githubProjectUrl'}}https://github.com/\{{ghProjectOwner}}/\{{ghProjectId}}\{{/def~}}
+\{{~#def 'githubRepoUrl'}}\{{githubProjectUrl}}.git\{{/def~}}
+
+{{#ifb (compare projectType '!=' LIBRARY)}}import org.apache.tools.ant.filters.ReplaceTokens{{/ifb}}
+import org.gradle.plugins.signing.Sign
+import javax.swing.*
+
+plugins {
+    id 'java'
+    {{#ifb (and (compare modularity '!=' 'MULTI') (compare projectType '!=' LIBRARY))}}\{{#ifb (and appMainClass (not multiModule))}}id 'application'\{{/ifb}}{{/ifb}}
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id "com.github.ethankhall.semantic-versioning" version "1.1.0"
+{{~#ifb bintraySupport}}
+    id 'signing'
+    id "com.jfrog.bintray" version "1.7.2"
+    id "net.saliman.properties" version "1.4.6"
+{{/ifb~}}
+}
+
+project.version.with {
+    major = \{{prjId}}VersionMajor as int
+    minor= \{{prjId}}VersionMinor as int
+    patch = \{{prjId}}VersionPatch as int
+    if (project.hasProperty('\{{prjId}}VersionLabel')) {
+        preRelease = \{{prjId}}VersionLabel
+    }
+    releaseBuild = Boolean.valueOf(\{{prjId}}ReleaseBuild)
+}
+ext.\{{prjId}}Version = project.version as String
+ext.\{{prjId}}Tag = Boolean.valueOf(\{{prjId}}ReleaseBuild) ? "v$ext.\{{prjId}}Version" : 'master'
+
+{{#ifb bintraySupport~}}
+def pomConfig = {
+    url "\{{githubProjectUrl}}"
+    developers {
+        \{{~#each developers}}
+        developer {
+            id "\{{id}}"
+            name "\{{name}}"
+            \{{~#if email}}
+            email "\{{email}}"\{{/if}}
+        }
+        \{{~/each}}
+    }
+    scm {
+        connection "\{{githubRepoUrl}}"
+        developerConnection "\{{githubRepoUrl}}"
+        url "\{{githubProjectUrl}}"
+    }
+    licenses {
+        license {
+            name "\{{ext.licenseName}}"
+            url "\{{ext.licenseUrl}}"
+            distribution "repo"
+        }
+    }
+}
+{{~/ifb}}
+
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{#encloseIf multiModule prefix="allprojects {" suffix="}"}}{{/ifb}}
+group = '\{{group}}'
+version = \{{prjId}}Version
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:all,-syntax,-missing', '-quiet')
+}
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{~/encloseIf}}{{/ifb}}
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{#if multiModule}}dependencies.compile subprojects\{{/if}}{{/ifb}}
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{#encloseIf multiModule prefix="subprojects {" suffix="}"}}{{/ifb}}
+        
+repositories {
+  jcenter()
+  mavenCentral()
+}
+
+{{#ifb (compare modularity '!=' 'SINGLE')~}}
+apply plugin: 'java'
+{{#ifb bintraySupport~}}apply plugin: 'signing'{{/ifb}}
+{{~/ifb}}
+
+sourceCompatibility = 1.8
+
+def defaultEncoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
+
+{{#ifb bintraySupport~}}
+signing {
+    sign configurations.archives
+}
+
+signArchives {
+  onlyIf { gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)} }
+}
+{{~/ifb}}
+
+dependencies {
+  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{#ifb (and (not multiModule) appMainClass)}}runtime ('ch.qos.logback:logback-classic:1.1.7')\{{/ifb}}{{/ifb}}
+  runtime ('ch.qos.logback:logback-classic:1.1.7')
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': "${project.archivesBaseName}",
+                'Implementation-Version': \{{prjId}}Version
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: classes) {
+    classifier "javadoc"
+    from javadoc
+}
+
+artifacts {
+    archives(sourcesJar, javadocJar)
+}
+
+{{#ifb bintraySupport~}}
+publishing {
+    publications {
+{{~#ifb (compare modularity '!=' 'SINGLE')}}
+        \{{#if multiModule}}"$project.name"\{{else}}"\{{ghProjectId}}"\{{/if}}(MavenPublication) {
+{{~else}}
+        "\{{ghProjectId}}"(MavenPublication) {
+{{~/ifb}}
+            from components.java
+            artifact sourcesJar { classifier "sources" }
+            artifact javadocJar { classifier "javadoc" }
+            groupId '\{{group}}'
+            artifactId project.name
+            version \{{prjId}}Version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', "Module $project.name")
+                root.appendNode('description', "The $project.name artifact")
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+{{~/ifb}}
+{{#ifb (compare modularity '!=' 'SINGLE')}}\{{~/encloseIf}}{{/ifb}}
+
+\{{#each modules~}}
+\{{#def 'projectBlockPrefix'}}project('\{{artifact}}') { \{{/def}}
+\{{#encloseIf multiModule prefix=projectBlockPrefix suffix="}"~}}
+
+\{{~#if multiModule}}
+\{{#ifb (and appMainClass (compare artifact '==' appModule.artifact))}}apply plugin: 'application'\{{/ifb}}
+dependencies {
+    \{{~#each dependsOn}}
+    compile project(':\{{artifact}}')
+    \{{~/each}}
+    \{{#ifb (and appMainClass (compare artifact '==' appModule.artifact))}}runtime ('ch.qos.logback:logback-classic:1.1.7')\{{/ifb}}
+}
+\{{~/if}}
+\{{~#ifb (compare artifact '==' appModule.artifact)}}
+artifacts {
+    archives(sourcesJar, javadocJar)
+}
+\{{~#if appMainClass}}
+jar {
+    manifest {
+        attributes 'Main-Class': '\{{appModule.basePackage}}.\{{appMainClass}}'
+    }
+}
+mainClassName = '\{{appModule.basePackage}}.\{{appMainClass}}'
+
+applicationName = "\{{prjId}}"
+
+startScripts {
+    defaultJvmOpts = ['-Dlogback.configurationFile=logback.xml']
+}
+
+applicationDistribution.from("${rootProject.projectDir}/dist") {
+    filter(ReplaceTokens, tokens:[\{{prjId}}Version : \{{prjId}}Version])
+}
+
+applicationDistribution.from("${rootProject.projectDir}/..") {
+    include('LICENSE')
+}
+\{{~/if}}
+\{{~/ifb}}
+\{{/encloseIf}}
+\{{/each}}
+
+{{#ifb bintraySupport~}}
+def readPasswordFromConsole(title, prompt) {
+    JPanel panel = new JPanel()
+    JLabel label = new JLabel(prompt)
+    JPasswordField pass = new JPasswordField(24)
+    panel.add(label)
+    panel.add(pass)
+    def options = ["OK", "Cancel"] as Object[]
+    int option = JOptionPane.showOptionDialog(null, panel, title,
+            JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null)
+    if(option != 0) throw new InvalidUserDataException("Operation cancelled by the user.")
+    new String(pass.password)
+}
+
+def isPublishTask(task) {
+  task.name.startsWith('publish')
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)}) {
+        def password = readPasswordFromConsole('Please enter your signing credentials', 'PGP Private Key Password')
+        allprojects { ext."signing.keyId" = signingKeyId }
+        allprojects { ext."signing.secretKeyRingFile" = signingSecretKeyRingFile }
+        allprojects { ext."signing.password" = password }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.getProperty('bintrayUser') : "unknownUser"
+    key =  project.hasProperty('bintrayKey') ? project.getProperty('bintrayKey') : "unknownKey"
+    publications = \{{#if multiModule}}subprojects.name\{{else}}['\{{ghProjectId}}']\{{/if}}
+    pkg {
+        repo = 'maven'
+        name = '\{{ghProjectId}}'
+        userOrg = '\{{ghProjectOwner}}'
+        licenses = ['\{{license}}']
+        vcsUrl = '\{{githubRepoUrl}}'
+
+        version {
+                name = \{{prjId}}Version
+                desc = "\{{projectName}} $\{{prjId}}Version"
+                released  = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+                vcsTag = \{{prjId}}Version
+                gpg {
+                    sign = true
+                }
+        }
+    }
+}
+{{~/ifb}}

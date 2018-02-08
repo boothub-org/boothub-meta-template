@@ -1,0 +1,9 @@
+rootProject.name = '\{{ghProjectId}}-root'
+
+String[] modules = [
+        \{{~#each modules}}
+        '\{{artifact}}',
+        \{{~/each}}
+]
+
+include modules
