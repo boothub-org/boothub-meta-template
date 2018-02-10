@@ -9,7 +9,8 @@ versionPatch: 4
 # versionLabel: rc-1
 releaseBuild: false
 
-ghProjectOwner: &maintainerId ob1
+ghUserId: &maintainerId ob1
+ghProjectOwner: *maintainerId
 ghProjectId: weirdo
 projectName: The Weirdo Project
 # ghPagesCname: weirdo.bizarre_soft.org
