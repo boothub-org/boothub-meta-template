@@ -60,6 +60,9 @@ enabled: {{gradleBased}}
 filePath: skeleton/template/files/settings.gradle
 enabled: {{and gradleBased (compare modularity '!=' 'SINGLE')}}
 
+--- !!org.boothub.context.FileContext
+filePath: skeleton/template/files/gradle-local.template.properties
+enabled: {{and gradleBased bintraySupport}}
 
 --- !!org.boothub.context.FileContext
 filePath: skeleton/template/files-src

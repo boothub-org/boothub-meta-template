@@ -265,6 +265,11 @@ class MetaTemplateSpec extends Specification {
         if(projectType != 'LIBRARY') {
             checkOutput(builder, (modularity == 'SINGLE') ? null : APP_MODULE.replaceAll('_', '-'))
         }
+        if(bintraySupport) {
+            assert path.allExist('gradle-local.template.properties')
+        } else {
+            assert path.noneExist('gradle-local.template.properties')
+        }
 
         where:
         t << getMavenGradleTemplates()
