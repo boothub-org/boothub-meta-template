@@ -1,100 +1,32 @@
 [[user_guide]]
 = User Guide
 
-After generating the project skeleton and creating a working copy on your computer, you can build the project with:
+After generating the template skeleton and creating a working copy on your computer, you can start customizing it.
 
-----
-gradlew build
-----
+TIP: Read about http://doc.boothub.org/releases/latest/#Templates[writing BootHub templates] before editing your template.
 
-You can also build an uncompressed distribution by executing:
-----
-gradlew installDist
-----
+The `contextClass` used by the generated template (as configured in `skeleton/template/config.yml`) is named `MainContext` and can be found
+in the `skeleton/template/script/<package-dir>/context` directory, where `<package-dir>` and the package of `MainContext` match the ID of your template.
 
-Let us consider that your project is called `my-project` and your main application class is named `MyApp`.
-Then, running the start script found in the `build/install/myProject/bin` directory, the following text should appear on your terminal:
-----
-Hello from MyApp!
-----
+The template skeleton provides a sample trait called `InfoContext`, which is implemented by `MainContext`.
+This trait configures a sample property named `myExampleProperty`.
 
-[[idea]]
-== IntelliJ Idea
+Change the provided context classes according to your needs.
+Typically, this means replacing the sample property with properties required by your template and providing the appropriate configuration code.
+Feel free to rename the `InfoContext` trait according to your needs and to create additional traits if necessary.
 
-- start the IntelliJ Idea IDE
-- open _build.gradle_
+If your template doesn't require any properties, you can delete the `InfoContext.groovy` file and remove any references to this trait in `MainContext.groovy`.
 
+Place the files needed by your template in the `skeleton/template/files` and `skeleton/template/files-src` directories, as described in the
+tutorial about http://doc.boothub.org/releases/latest/#Templates[writing BootHub templates].
 
-[[eclipse]]
-== Eclipse
+Add your own tests to the skeleton Spock specification available in the `src/test/groovy` directory.
 
-- start the Eclipse IDE
-- install a recent version of https://projects.eclipse.org/projects/tools.buildship[Buildship]
-- import the project using the Gradle Project wizard
+Before publishing your template, you should execute it locally to check that everything looks good.
+You can do this by running the https://boothub.org/app#/cli[BootHub CLI] with a `SingleSkeletonRepo`, either from your IDE or using a locally-installed CLI:
 
-[[versioning]]
-== Versioning
+- _from your IDE_: create a run configuration with org.boothub.BootHubCli as main class and the folowing VM options: +
+`-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=<your-template-directory>/skeleton`
 
-The file `gradle.properties` contains variables that are used to create a version string conforming to the https://semver.org[semantic versioning] standard.
-The names of these variables are prefixed by the camelCase representation of the project name, for example:
-`myProjectVersionMajor`, `myProjectVersionMinor`, `myProjectVersionPatch`.
-
-Additionally, a boolean variable (named for example `myProjectReleaseBuild`) is used to specify whether the current build represents a release or a snapshot.
-
-By editing the values of these variables you can change the version of your project.
-
-For example, to bump your project version to `1.2.3-SNAPSHOT`, your `gradle.properties` should contain:
-----
-myProjectVersionMajor = 1
-myProjectVersionMinor = 2
-myProjectVersionPatch = 3
-myProjectReleaseBuild = false
-----
-
-== License header check
-
-The Gradle build script uses the https://github.com/hierynomus/license-gradle-plugin[license-gradle-plugin]
-to check if your source files include the header provided in the `license-header.txt` file.
-
-== Publishing to JCenter and Maven Central
-
-The Gradle task `bintrayUpload` lets you publish your artifacts to https://bintray.com/[Bintray].
-You can then https://bintray.com/docs/usermanual/uploads/uploads_centralrepositories.html#_including_your_package_in_jcenter[include your packages in JCenter]
-and https://bintray.com/docs/usermanual/uploads/uploads_syncingwiththirdpartyplatforms.html#_syncing_artifacts_with_maven_central[synchronize them with Maven Central].
-
-Before being able to execute the `bintrayUpload` task, you need to configure your credentials.
-
-=== Credentials
-Your Gradle build script uses the https://github.com/stevesaliman/gradle-properties-plugin[gradle-properties-plugin],
-which allows you to configure additional project properties in the `gradle-local.properties` file.
-
-This is the file in which you should configure your credentials.
-Since `gradle-local.properties` is already listed in your project's `.gitignore` file, your credentials will not be committed to git.
-
-To create this file you can simply copy the provided template file `gradle-local-template.properties` to `gradle-local.properties`.
-The content of this file is shown below:
-----
-signingKeyId = A0B1C2D3
-signingSecretKeyRingFile = C:/dev/gpg/jsmith.gpg
-
-bintrayUser = jsmith
-bintrayKey = a0b1c2d3e4f5a0b1c2d3e4f5a0b1c2d3e4f5a0b1
-----
-
-You need to configure the appropriate values for the above properties, which are used for signing your artifacts and for granting you access to Bintray.
-
-The signatory credentials consist of:
-
-* the public key ID (an 8 character hexadecimal string)
-* the absolute path to the secret key ring file containing your private key
-* the passphrase used to protect your private key
-
-The passphrase of your private key is a very sesnsitive information, therefore it is not stored in the `gradle-local.properties`.
-Instead, Gradle will ask you to enter it each time you execute the `bintrayUpload` task.
-
-See the https://www.gnupg.org/documentation/howtos.html[GnuPG documentation] and the
-https://docs.gradle.org/current/userguide/signing_plugin.html[Gradle signing plugin] for details on how to create and configure your signatures.
-
-The Bintray credentials consist of your Bintray user name and your
-https://bintray.com/docs/usermanual/interacting/interacting_interacting.html#anchorAPIKEY[Bintray API Key].
-See the documentation of the https://github.com/bintray/gradle-bintray-plugin[gradle-bintray-plugin] for more details.
+- _using a locally-installed BootHub-CLI_: set the environment variable +
+`BOOTHUB_OPTS=-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=<your-template-directory>/skeleton`

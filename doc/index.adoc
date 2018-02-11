@@ -13,8 +13,11 @@
 :toc!:
 
 include::introduction.adoc[]
+
 include::getting_started.adoc[]
+
 include::user_guide.adoc[]
+
 include::dev_guide.adoc[]
 
 :leveloffset: -1
