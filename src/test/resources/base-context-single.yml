@@ -9,7 +9,7 @@ versionPatch: 4
 # versionLabel: rc-1
 releaseBuild: false
 
-ghUserId: &maintainerId ob1
+ghUserId: &maintainerId jsmith
 ghProjectOwner: *maintainerId
 ghProjectId: weirdo
 projectName: The Weirdo Project
@@ -25,4 +25,4 @@ appMainClass: WeirdAppMain
 
 developers:
   - id: *maintainerId
-    name: Lux Kye Walker
+    name: John Smith
