@@ -8,7 +8,7 @@ TIP: Read about http://doc.boothub.org/releases/latest/#Templates[writing BootHu
 The `contextClass` used by the generated template (as configured in `skeleton/template/config.yml`) is named `MainContext` and can be found
 in the `skeleton/template/script/<package-dir>/context` directory, where `<package-dir>` and the package of `MainContext` match the ID of your template.
 
-The template skeleton provides a sample trait called `InfoContext`, which is implemented by `MainContext`.
+Gradle-based template skeletons provide a sample trait called `InfoContext`, which is implemented by `MainContext`.
 This trait configures a sample property named `myExampleProperty`.
 
 Change the provided context classes according to your needs.
@@ -20,7 +20,11 @@ If your template doesn't require any properties, you can delete the `InfoContext
 Place the files needed by your template in the `skeleton/template/files` and `skeleton/template/files-src` directories, as described in the
 tutorial about http://doc.boothub.org/releases/latest/#Templates[writing BootHub templates].
 
-Add your own tests to the skeleton Spock specification available in the `src/test/groovy` directory.
+For gradle-based template skeletons, a Spock specification is available in the `src/test/groovy` directory.
+Change it according to your needs, by editing the existing tests and adding new ones.
+Also, consider using a
+https://github.com/boothub-org/boothub/blob/master/boothub-gradle-test/src/main/groovy/org/boothub/gradle/ProjectContextStreamBuilder.groovy[ProjectContextStreamBuilder]
+to perform tests with all combinations of flags (that is, boolean or enum properties provided by your template).
 
 Before publishing your template, you should execute it locally to check that everything looks good.
 You can do this by running the https://boothub.org/app#/cli[BootHub CLI] with a `SingleSkeletonRepo`, either from your IDE or using a locally-installed CLI:
