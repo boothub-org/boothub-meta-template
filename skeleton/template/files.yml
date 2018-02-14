@@ -79,7 +79,7 @@ enabled: {{mavenCompatible}}
 ####################
 --- !!org.boothub.context.FileContext
 filePath: src/TemplateSpec.groovy
-targetPath: src/test/groovy/{{replace templatePackage "." "/"}}/{{projectNameAsJavaClass}}Spec
+targetPath: src/test/groovy/{{replace templatePackage "." "/"}}/{{projectNameAsJavaClass}}Spec.groovy
 enabled: {{gradleBased}}
 
 --- !!org.boothub.context.FileContext
@@ -89,3 +89,14 @@ targetPath: skeleton/template/script/{{replace templatePackage "." "/"}}/context
 --- !!org.boothub.context.FileContext
 filePath: src/InfoContext.groovy
 targetPath: skeleton/template/script/{{replace templatePackage "." "/"}}/context/InfoContext.groovy
+
+--- !!org.boothub.context.FileContext
+filePath: src/base-context-single.yml
+targetPath: src/test/resources/base-context-single.yml
+enabled: {{and gradleBased (compare modularity '!=' 'MULTI')}}
+
+--- !!org.boothub.context.FileContext
+filePath: src/base-context-multi.yml
+targetPath: src/test/resources/base-context-multi.yml
+enabled: {{and gradleBased (compare modularity '!=' 'SINGLE')}}
+

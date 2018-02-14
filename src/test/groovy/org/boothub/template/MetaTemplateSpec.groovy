@@ -30,6 +30,9 @@ import org.boothub.gradle.BuildChecker
 import org.boothub.gradle.GradleBuildResult
 import org.boothub.gradle.GradleTemplateBuilder
 import org.boothub.gradle.OutputChecker
+import org.gradle.testkit.runner.BuildResult
+import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -132,6 +135,17 @@ class MetaTemplateSpec extends Specification {
         if(metaCtx.licensable) {
             ctx.license = license
         }
+    }
+
+    private static void checkBuild(Path templatePath) {
+        def gradleRunner = GradleRunner.create()
+        BuildResult result = gradleRunner
+                .withProjectDir(templatePath.toFile())
+                .withArguments('--info', '--stacktrace', 'build')
+                .withDebug(false)
+                .build()
+
+        assert result.task(':build').outcome == TaskOutcome.SUCCESS
     }
 
     static void checkBasics(Path path, StandardProjectContext metaCtx, ProjectContext ctx) {
@@ -251,6 +265,7 @@ class MetaTemplateSpec extends Specification {
         println "buildResult: $buildResult"
 
         then:
+        checkBuild(templatePath)
         checkBasics(path, metaCtx, builder.context)
         templatePath.allExist(GRADLE_FILES)
         templatePath.resolve('skeleton/template/files').allExist(GRADLE_FILES)

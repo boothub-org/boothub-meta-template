@@ -212,7 +212,7 @@ gitPublish {
 
 task checkInfoVersion {
     doLast {
-        def props = new Yaml().load(new FileInputStream('skeleton/info.yml'))
+        def props = new Yaml().load(new FileInputStream("$projectDir/skeleton/info.yml"))
         def infoVersion = props?.version?.major + '.' + props?.version?.minor + '.' + props?.version?.patch
         def prjVersion = {{prjId}}VersionMajor + '.' + {{prjId}}VersionMinor + '.' + {{prjId}}VersionPatch
         if(infoVersion != prjVersion) throw new InvalidUserDataException("Different versions found in gradle.properties ($prjVersion) and info.yml ($infoVersion).")

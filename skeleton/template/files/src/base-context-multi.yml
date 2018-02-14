@@ -1,0 +1,44 @@
+--- !!org.example.myproject.context.MainContext
+license: Apache-2.0
+group: org.bizarre-soft
+# projectPageUrl: http://weird-app.bizarre-soft.org
+
+versionMajor: 2
+versionMinor: 3
+versionPatch: 4
+# versionLabel: rc-1
+releaseBuild: false
+
+ghUserId: &maintainerId jsmith
+ghProjectOwner: *maintainerId
+ghProjectId: weirdo
+projectName: The Weirdo Project
+# ghPagesCname: weirdo.bizarre_soft.org
+
+modules:
+  - !!org.boothub.context.StandardModuleContext &mod-strange-lib
+    artifact: strange-lib
+    basePackage: org.bizarre_soft.strange_lib
+  - !!org.boothub.context.StandardModuleContext &mod-spooky-ui
+    artifact: spooky-ui
+    basePackage: org.bizarre_soft.spooky_ui
+    dependsOn:
+      - *mod-strange-lib
+  - !!org.boothub.context.StandardModuleContext &mod-weird-app
+    artifact: weird-app
+    basePackage: org.bizarre_soft.weird_app
+    dependsOn:
+      - *mod-strange-lib
+      - *mod-spooky-ui
+
+{{#ifb (compare projectType '!=' LIBRARY)~}}
+appModule: *mod-weird-app
+appMainClass: WeirdAppMain
+{{~/ifb}}
+
+developers:
+  - id: *maintainerId
+    name: John Smith
+  - id: ejohnson
+    name: Emma Johnson
+    email: emma@johnson.gov

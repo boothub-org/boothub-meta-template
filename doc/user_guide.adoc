@@ -25,7 +25,7 @@ Add your own tests to the skeleton Spock specification available in the `src/tes
 Before publishing your template, you should execute it locally to check that everything looks good.
 You can do this by running the https://boothub.org/app#/cli[BootHub CLI] with a `SingleSkeletonRepo`, either from your IDE or using a locally-installed CLI:
 
-- _from your IDE_: create a run configuration with org.boothub.BootHubCli as main class and the folowing VM options: +
+- _from your IDE_: create a run configuration with `org.boothub.BootHubCli` as main class and the following VM options: +
 `-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=<your-template-directory>/skeleton`
 
 - _using a locally-installed BootHub-CLI_: set the environment variable +
