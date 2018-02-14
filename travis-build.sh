@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ev
-./gradlew --no-daemon build groovydoc asciidoc
+./gradlew --no-daemon build -x test groovydoc asciidoc
+./gradlew -i -s --no-daemon test
 
 if [ "${TRAVIS_PULL_REQUEST}" == "false" -a "${TRAVIS_BRANCH}" == "master" ]; then
   if [ "`git ls-remote origin gh-pages`" == "" ]; then
