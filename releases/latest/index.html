@@ -17,26 +17,14 @@
 <h1>The Meta-Template BootHub Template</h1>
 <div class="details">
 <span id="author" class="author">Serban Iordache</span><br>
-<span id="revnumber">version 0.1.0</span>
+<span id="revnumber">version 0.1.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#getting_started">Getting Started</a></li>
-<li><a href="#user_guide">User Guide</a>
-<ul class="sectlevel2">
-<li><a href="#idea">IntelliJ Idea</a></li>
-<li><a href="#eclipse">Eclipse</a></li>
-<li><a href="#versioning">Versioning</a></li>
-<li><a href="#_license_header_check">License header check</a></li>
-<li><a href="#_publishing_to_jcenter_and_maven_central">Publishing to JCenter and Maven Central</a>
-<ul class="sectlevel3">
-<li><a href="#_credentials">Credentials</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#user_guide">User Guide</a></li>
 <li><a href="#dev_guide">Developer Guide</a></li>
 </ul>
 </div>
@@ -63,14 +51,40 @@ Click on the icon below to read the license file:</p>
 </div>
 <div class="imageblock thumb">
 <div class="content">
-<a class="image" href="https://github.com/boothub-org/boothub-meta-template/blob/v0.1.0/LICENSE"><img src="data:image/png;base64,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" alt="license"></a>
+<a class="image" href="https://github.com/boothub-org/boothub-meta-template/blob/v0.1.1/LICENSE"><img src="data:image/png;base64,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" alt="license"></a>
 </div>
 </div>
 <div class="paragraph">
-<p>The Meta-Template BootHub template allows you to create a Java project with a main class and a JUnit test class.</p>
+<p>The Meta-Template BootHub template lets you create BootHub templates.</p>
 </div>
 <div class="paragraph">
-<p>It provides a Gradle build file that adds support for versioning, checking license headers, jar signing and publishing to JCenter and Maven Central.</p>
+<p>It allows you to customize the created template in accordance with the type of projects you intend to generate with it.
+The project features you can opt for while configuring the created template include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the ability to produce Maven-compatible artifacts</p>
+</li>
+<li>
+<p>software license support</p>
+</li>
+<li>
+<p>project versioning support</p>
+</li>
+<li>
+<p>support for gradle-based projects</p>
+</li>
+<li>
+<p>support for single-module projects, multi-module projects or both</p>
+</li>
+<li>
+<p>support for libraries, applications or both</p>
+</li>
+<li>
+<p>Bintray upload support</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -78,19 +92,20 @@ Click on the icon below to read the license file:</p>
 <h2 id="getting_started">Getting Started</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can generate a project skeleton based on the Meta-Template BootHub template by using the
-<a href="https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv0.1.0%2Fmeta-template-0.1.0.zip" class="external" target="_blank">BootHub GUI</a>
+<p>You can generate a template skeleton based on the Meta-Template BootHub template by using the
+<a href="https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv0.1.1%2Fmeta-template-0.1.1.zip" class="external" target="_blank">BootHub GUI</a>
 or the
 <a href="https://boothub.org/app#/cli" class="external" target="_blank">BootHub CLI</a>.</p>
 </div>
 <div class="paragraph">
 <p>After providing the <a href="http://doc.boothub.org/releases/latest/#template-independent-data">template-independent data</a>, you need to configure the
-<a href="https://maven.apache.org/guides/mini/guide-naming-conventions.html">Maven groupId</a> of your project:</p>
+template-ID and provide a short description of your template:</p>
 </div>
 <div class="black-background">
 <pre class="lime" style="margin-left: 20px;">
 
-Maven groupId: <span class="yellow">org.myproject</span>
+Template ID [com.github.my-template]:
+Short description: <span class="yellow">A BootHub template for my side projects.</span>
 
 </pre>
 </div>
@@ -98,14 +113,12 @@ Maven groupId: <span class="yellow">org.myproject</span>
 
 </pre>
 <div class="paragraph">
-<p>Then you need to configure the artifact ID, the base package and the name of the main class of your application:</p>
+<p>Then you need to specify whether the projects generated by your template will produce Maven-compatible artifacts:</p>
 </div>
 <div class="black-background">
 <pre class="lime" style="margin-left: 20px;">
 
-Artifact ID [my-project]: ​
-Base package [org.myproject]: ​
-Application main class name [MyProjectMain]: ​MyApp
+Is your template intended to be used for generating projects that produce Maven-compatible artifacts? (Y/N) [Y]:
 
 </pre>
 </div>
@@ -113,176 +126,146 @@ Application main class name [MyProjectMain]: ​MyApp
 
 </pre>
 <div class="paragraph">
-<p>The final step is to provide information about the project developers:</p>
+<p>Usually, only projects written in a JVM language can produce Maven-compatible artifacts.
+For all other project types your answer to the above question should be <code>N</code>, in which case you need to specify if the generated projects require license and versioning support:</p>
 </div>
 <div class="black-background">
 <pre class="lime" style="margin-left: 20px;">
 
-Developers
-Developer ID [jsmith]:
-Developer name [John Smith]:
-Developer email (optional):
-More developers? (Y/N) [N]:
+Should your template require a license for the generated projects? (Y/N) [Y]:
+Should your template require project versioning? (Y/N) [Y]:
 
 </pre>
 </div>
+<pre>
+
+</pre>
+<div class="paragraph">
+<p>If your projects should generate Maven-compatible artifacts, the meta-template automatically configures support for licensing and project versioning,
+but you need to answer additional questions regarding the template you want to create:</p>
+</div>
+<div class="black-background">
+<pre class="lime" style="margin-left: 20px;">
+
+Is your template intended to be used for generating gradle-based projects? (Y/N) [Y]:
+
+</pre>
+</div>
+<pre>
+
+</pre>
+<div class="paragraph">
+<p>If you opt for gradle-based projects, the generated template is able to create gradle build scripts customized in accordance with the answers you provide to the subsequent questions.</p>
+</div>
+<div class="black-background">
+<pre class="lime" style="margin-left: 20px;">
+
+Should the gradle script of the projects generated by your template provide support for publishing artifacts to Bintray? (Y/N) [Y]:
+
+</pre>
+</div>
+<pre>
+
+</pre>
+<div class="paragraph">
+<p>If you opt for Bintray support, the gradle scripts created by your template will provide the <code>bintrayUpload</code> task, which allows you to publish artifacts to <a href="https://bintray.com/">Bintray</a>.</p>
+</div>
+<div class="paragraph">
+<p>Then, you need to specify the structure of the generated projects:</p>
+</div>
+<div class="black-background">
+<pre class="lime" style="margin-left: 20px;">
+
+What kind of structure should have the projects generated by your template?
+  1: Only single-module projects
+  2: Only multi-module projects
+  3: Both single-module and multi-module projects
+Enter your choice:
+
+</pre>
+</div>
+<pre>
+
+</pre>
+<div class="paragraph">
+<p>The final piece of information you need to provide concerns the type of projects your template will create:</p>
+</div>
+<div class="black-background">
+<pre class="lime" style="margin-left: 20px;">
+
+What type of projects should your template generate?
+  1: Only applications (the generated projects will provide a main class)
+  2: Only libraries (the generated projects will not provide a main class)
+  3: Both applications and libraries (the generated projects may or may not provide a main class)
+Enter your choice:
+
+</pre>
+</div>
+<pre>
+
+</pre>
 </div>
 </div>
 <div class="sect1">
 <h2 id="user_guide">User Guide</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After generating the project skeleton and creating a working copy on your computer, you can build the project with:</p>
+<p>After generating the template skeleton and creating a working copy on your computer, you can start customizing it.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>gradlew build</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can also build an uncompressed distribution by executing:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>gradlew installDist</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Let us consider that your project is called <code>my-project</code> and your main application class is named <code>MyApp</code>.
-Then, running the start script found in the <code>build/install/myProject/bin</code> directory, the following text should appear on your terminal:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>Hello from MyApp!</pre>
-</div>
-</div>
-<div class="sect2">
-<h3 id="idea">IntelliJ Idea</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>start the IntelliJ Idea IDE</p>
-</li>
-<li>
-<p>open <em>build.gradle</em></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="eclipse">Eclipse</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>start the Eclipse IDE</p>
-</li>
-<li>
-<p>install a recent version of <a href="https://projects.eclipse.org/projects/tools.buildship">Buildship</a></p>
-</li>
-<li>
-<p>import the project using the Gradle Project wizard</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="versioning">Versioning</h3>
-<div class="paragraph">
-<p>The file <code>gradle.properties</code> contains variables that are used to create a version string conforming to the <a href="https://semver.org">semantic versioning</a> standard.
-The names of these variables are prefixed by the camelCase representation of the project name, for example:
-<code>myProjectVersionMajor</code>, <code>myProjectVersionMinor</code>, <code>myProjectVersionPatch</code>.</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read about <a href="http://doc.boothub.org/releases/latest/#Templates">writing BootHub templates</a> before editing your template.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Additionally, a boolean variable (named for example <code>myProjectReleaseBuild</code>) is used to specify whether the current build represents a release or a snapshot.</p>
+<p>The <code>contextClass</code> used by the generated template (as configured in <code>skeleton/template/config.yml</code>) is named <code>MainContext</code> and can be found
+in the <code>skeleton/template/script/&lt;package-dir&gt;/context</code> directory, where <code>&lt;package-dir&gt;</code> and the package of <code>MainContext</code> match the ID of your template.</p>
 </div>
 <div class="paragraph">
-<p>By editing the values of these variables you can change the version of your project.</p>
+<p>Gradle-based template skeletons provide a sample trait called <code>InfoContext</code>, which is implemented by <code>MainContext</code>.
+This trait configures a sample property named <code>myExampleProperty</code>.</p>
 </div>
 <div class="paragraph">
-<p>For example, to bump your project version to <code>1.2.3-SNAPSHOT</code>, your <code>gradle.properties</code> should contain:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>myProjectVersionMajor = 1
-myProjectVersionMinor = 2
-myProjectVersionPatch = 3
-myProjectReleaseBuild = false</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_license_header_check">License header check</h3>
-<div class="paragraph">
-<p>The Gradle build script uses the <a href="https://github.com/hierynomus/license-gradle-plugin">license-gradle-plugin</a>
-to check if your source files include the header provided in the <code>license-header.txt</code> file.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_publishing_to_jcenter_and_maven_central">Publishing to JCenter and Maven Central</h3>
-<div class="paragraph">
-<p>The Gradle task <code>bintrayUpload</code> lets you publish your artifacts to <a href="https://bintray.com/">Bintray</a>.
-You can then <a href="https://bintray.com/docs/usermanual/uploads/uploads_centralrepositories.html#_including_your_package_in_jcenter">include your packages in JCenter</a>
-and <a href="https://bintray.com/docs/usermanual/uploads/uploads_syncingwiththirdpartyplatforms.html#_syncing_artifacts_with_maven_central">synchronize them with Maven Central</a>.</p>
+<p>Change the provided context classes according to your needs.
+Typically, this means replacing the sample property with properties required by your template and providing the appropriate configuration code.
+Feel free to rename the <code>InfoContext</code> trait according to your needs and to create additional traits if necessary.</p>
 </div>
 <div class="paragraph">
-<p>Before being able to execute the <code>bintrayUpload</code> task, you need to configure your credentials.</p>
-</div>
-<div class="sect3">
-<h4 id="_credentials">Credentials</h4>
-<div class="paragraph">
-<p>Your Gradle build script uses the <a href="https://github.com/stevesaliman/gradle-properties-plugin">gradle-properties-plugin</a>,
-which allows you to configure additional project properties in the <code>gradle-local.properties</code> file.</p>
+<p>If your template doesn&#8217;t require any properties, you can delete the <code>InfoContext.groovy</code> file and remove any references to this trait in <code>MainContext.groovy</code>.</p>
 </div>
 <div class="paragraph">
-<p>This is the file in which you should configure your credentials.
-Since <code>gradle-local.properties</code> is already listed in your project&#8217;s <code>.gitignore</code> file, your credentials will not be committed to git.</p>
+<p>Place the files needed by your template in the <code>skeleton/template/files</code> and <code>skeleton/template/files-src</code> directories, as described in the
+tutorial about <a href="http://doc.boothub.org/releases/latest/#Templates">writing BootHub templates</a>.</p>
 </div>
 <div class="paragraph">
-<p>To create this file you can simply copy the provided template file <code>gradle-local-template.properties</code> to <code>gradle-local.properties</code>.
-The content of this file is shown below:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>signingKeyId = A0B1C2D3
-signingSecretKeyRingFile = C:/dev/gpg/jsmith.gpg
-
-bintrayUser = jsmith
-bintrayKey = a0b1c2d3e4f5a0b1c2d3e4f5a0b1c2d3e4f5a0b1</pre>
-</div>
+<p>For gradle-based template skeletons, a Spock specification is available in the <code>src/test/groovy</code> directory.
+Change it according to your needs, by editing the existing tests and adding new ones.
+Also, consider using a
+<a href="https://github.com/boothub-org/boothub/blob/master/boothub-gradle-test/src/main/groovy/org/boothub/gradle/ProjectContextStreamBuilder.groovy">ProjectContextStreamBuilder</a>
+to perform tests with all combinations of flags (that is, boolean or enum properties provided by your template).</p>
 </div>
 <div class="paragraph">
-<p>You need to configure the appropriate values for the above properties, which are used for signing your artifacts and for granting you access to Bintray.</p>
-</div>
-<div class="paragraph">
-<p>The signatory credentials consist of:</p>
+<p>Before publishing your template, you should execute it locally to check that everything looks good.
+You can do this by running the <a href="https://boothub.org/app#/cli">BootHub CLI</a> with a <code>SingleSkeletonRepo</code>, either from your IDE or using a locally-installed CLI:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>the public key ID (an 8 character hexadecimal string)</p>
+<p><em>from your IDE</em>: create a run configuration with <code>org.boothub.BootHubCli</code> as main class and the following VM options:<br>
+<code>-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=&lt;your-template-directory&gt;/skeleton</code></p>
 </li>
 <li>
-<p>the absolute path to the secret key ring file containing your private key</p>
-</li>
-<li>
-<p>the passphrase used to protect your private key</p>
+<p><em>using a locally-installed BootHub-CLI</em>: set the environment variable<br>
+<code>BOOTHUB_OPTS=-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=&lt;your-template-directory&gt;/skeleton</code></p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>The passphrase of your private key is a very sesnsitive information, therefore it is not stored in the <code>gradle-local.properties</code>.
-Instead, Gradle will ask you to enter it each time you execute the <code>bintrayUpload</code> task.</p>
-</div>
-<div class="paragraph">
-<p>See the <a href="https://www.gnupg.org/documentation/howtos.html">GnuPG documentation</a> and the
-<a href="https://docs.gradle.org/current/userguide/signing_plugin.html">Gradle signing plugin</a> for details on how to create and configure your signatures.</p>
-</div>
-<div class="paragraph">
-<p>The Bintray credentials consist of your Bintray user name and your
-<a href="https://bintray.com/docs/usermanual/interacting/interacting_interacting.html#anchorAPIKEY">Bintray API Key</a>.
-See the documentation of the <a href="https://github.com/bintray/gradle-bintray-plugin">gradle-bintray-plugin</a> for more details.</p>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -356,7 +339,7 @@ cd boothub-meta-template
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.0<br>
+Version 0.1.1<br>
 </div>
 </div>
 </body>
