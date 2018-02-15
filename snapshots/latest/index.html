@@ -17,7 +17,7 @@
 <h1>The Meta-Template BootHub Template</h1>
 <div class="details">
 <span id="author" class="author">Serban Iordache</span><br>
-<span id="revnumber">version 0.1.1-SNAPSHOT</span>
+<span id="revnumber">version 0.1.2-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -93,7 +93,7 @@ The project features you can opt for while configuring the created template incl
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can generate a template skeleton based on the Meta-Template BootHub template by using the
-<a href="https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv0.1.1-SNAPSHOT%2Fmeta-template-0.1.1-SNAPSHOT.zip" class="external" target="_blank">BootHub GUI</a>
+<a href="https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv0.1.2-SNAPSHOT%2Fmeta-template-0.1.2-SNAPSHOT.zip" class="external" target="_blank">BootHub GUI</a>
 or the
 <a href="https://boothub.org/app#/cli" class="external" target="_blank">BootHub CLI</a>.</p>
 </div>
@@ -229,7 +229,7 @@ Read about <a href="http://doc.boothub.org/releases/latest/#Templates">writing B
 in the <code>skeleton/template/script/&lt;package-dir&gt;/context</code> directory, where <code>&lt;package-dir&gt;</code> and the package of <code>MainContext</code> match the ID of your template.</p>
 </div>
 <div class="paragraph">
-<p>The template skeleton provides a sample trait called <code>InfoContext</code>, which is implemented by <code>MainContext</code>.
+<p>Gradle-based template skeletons provide a sample trait called <code>InfoContext</code>, which is implemented by <code>MainContext</code>.
 This trait configures a sample property named <code>myExampleProperty</code>.</p>
 </div>
 <div class="paragraph">
@@ -245,7 +245,11 @@ Feel free to rename the <code>InfoContext</code> trait according to your needs a
 tutorial about <a href="http://doc.boothub.org/releases/latest/#Templates">writing BootHub templates</a>.</p>
 </div>
 <div class="paragraph">
-<p>Add your own tests to the skeleton Spock specification available in the <code>src/test/groovy</code> directory.</p>
+<p>For gradle-based template skeletons, a Spock specification is available in the <code>src/test/groovy</code> directory.
+Change it according to your needs, by editing the existing tests and adding new ones.
+Also, consider using a
+<a href="https://github.com/boothub-org/boothub/blob/master/boothub-gradle-test/src/main/groovy/org/boothub/gradle/ProjectContextStreamBuilder.groovy">ProjectContextStreamBuilder</a>
+to perform tests with all combinations of flags (that is, boolean or enum properties provided by your template).</p>
 </div>
 <div class="paragraph">
 <p>Before publishing your template, you should execute it locally to check that everything looks good.
@@ -335,7 +339,7 @@ cd boothub-meta-template
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.1-SNAPSHOT<br>
+Version 0.1.2-SNAPSHOT<br>
 </div>
 </div>
 </body>
