@@ -1,12 +1,14 @@
 [[introduction]]
 = Introduction
 
-NOTE: The source code is available on https://github.com/boothub-org/boothub-meta-template[GitHub].
+TIP: Click https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv{project-version}%2Fmeta-template-{project-version}.zip[here, role="external", window="_blank"] to start using the Meta-Template.
 
 The Meta-Template BootHub template is licensed under the Apache-2.0 license.
 Click on the icon below to read the license file:
 
 image::license.png[role="thumb" link="{blob-root}/LICENSE"]
+
+NOTE: The source code is available on https://github.com/boothub-org/boothub-meta-template[GitHub].
 
 The Meta-Template BootHub template lets you create BootHub templates.
 

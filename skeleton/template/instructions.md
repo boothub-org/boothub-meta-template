@@ -16,4 +16,4 @@ Create a run configuration with org.boothub.BootHubCli as main class and the fol
   - _Using the locally-installed BootHub-CLI_:
 Set the environment variable *BOOTHUB_OPTS=-DboothubRepoClass=org.boothub.repo.SingleSkeletonRepo -DboothubRepoPath=<your-base-directory>/{{ghProjectId}}/skeleton*
 
-See the [skeleton documentation](http://meta-template.boothub.org) for more info.
+See the [template documentation](http://meta-template.boothub.org) for more info.
