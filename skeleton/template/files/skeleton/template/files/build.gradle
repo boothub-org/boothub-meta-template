@@ -72,8 +72,8 @@ tasks.withType(Javadoc) {
 {{#ifb (compare modularity '!=' 'SINGLE')}}\{{#encloseIf multiModule prefix="subprojects {" suffix="}"}}{{/ifb}}
         
 repositories {
-  jcenter()
-  mavenCentral()
+    jcenter()
+    mavenCentral()
 }
 
 {{#ifb (compare modularity '!=' 'SINGLE')~}}
@@ -92,14 +92,14 @@ signing {
 }
 
 signArchives {
-  onlyIf { gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)} }
+    onlyIf { gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)} }
 }
 {{~/ifb}}
 
 dependencies {
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
 {{#ifb (compare modularity '!=' 'SINGLE')}}\{{#ifb (and (not multiModule) appMainClass)}}runtime ('ch.qos.logback:logback-classic:1.1.7')\{{/ifb}}{{/ifb}}
-  runtime ('ch.qos.logback:logback-classic:1.1.7')
+    runtime ('ch.qos.logback:logback-classic:1.1.7')
 }
 
 jar {
@@ -207,7 +207,7 @@ def readPasswordFromConsole(title, prompt) {
 }
 
 def isPublishTask(task) {
-  task.name.startsWith('publish')
+    task.name.startsWith('publish')
 }
 
 gradle.taskGraph.whenReady { taskGraph ->

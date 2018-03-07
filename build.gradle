@@ -45,9 +45,9 @@ ext.boothubMetaTemplateVersion = project.version as String
 ext.boothubMetaTemplateTag = Boolean.valueOf(boothubMetaTemplateReleaseBuild) ? "v$ext.boothubMetaTemplateVersion" : 'master'
 
 repositories {
-  jcenter()
-  mavenCentral()
-  maven { url 'https://jitpack.io' }
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 def pomConfig = {
@@ -91,8 +91,8 @@ sourceSets.main.groovy.srcDirs = ["src/main/java", "src/main/groovy"]
 sourceSets.test.resources.srcDirs += 'skeleton'
 
 configurations {
-  provided
-  compile {transitive = true}
+    provided
+    compile {transitive = true}
 }
 
 license {
@@ -107,26 +107,26 @@ signing {
 }
 
 signArchives {
-  onlyIf { gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)} }
+    onlyIf { gradle.taskGraph.allTasks.findAll {task -> isPublishTask(task)} }
 }
 
 dependencies {
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
 
-  provided 'com.google.code.findbugs:findbugs-annotations:3.0.1'
+    provided 'com.google.code.findbugs:findbugs-annotations:3.0.1'
 
-  testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
-      exclude module: 'groovy-all'
-  }
-  testCompile 'cglib:cglib-nodep:3.2.4'
-  testCompile 'org.objenesis:objenesis:2.4'
-  testCompile('com.athaydes:spock-reports:1.2.13') { transitive = false}
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile 'cglib:cglib-nodep:3.2.4'
+    testCompile 'org.objenesis:objenesis:2.4'
+    testCompile('com.athaydes:spock-reports:1.2.13') { transitive = false}
 
-  testCompile('ch.qos.logback:logback-classic:1.1.7')
+    testCompile('ch.qos.logback:logback-classic:1.1.7')
 
-  testCompile ("org.boothub:boothub-core:$boothubVersion")
-  testCompile ("org.boothub:boothub-gradle-test:$boothubVersion")
-  testCompile gradleTestKit()
+    testCompile ("org.boothub:boothub-core:$boothubVersion")
+    testCompile ("org.boothub:boothub-gradle-test:$boothubVersion")
+    testCompile gradleTestKit()
 }
 
 sourceSets.main.compileClasspath += configurations.provided
@@ -217,18 +217,18 @@ idea {
 }
 
 asciidoctor {
-  sourceDir = file("doc")
-  sources {include 'index.adoc'}
-  logDocuments = true
-  attributes 'source-highlighter': 'coderay',
-             'coderay-linenums-mode': 'table',
-             icons: 'font',
-             imagesdir: 'img',
-             'data-uri': '',
-             linkattrs: true,
-             linkcss: true,
-             'git-tag': boothubMetaTemplateTag,
-             'blob-root': "https://github.com/boothub-org/boothub-meta-template/blob/$boothubMetaTemplateTag"
+    sourceDir = file("doc")
+    sources {include 'index.adoc'}
+    logDocuments = true
+    attributes 'source-highlighter': 'coderay',
+               'coderay-linenums-mode': 'table',
+               icons: 'font',
+               imagesdir: 'img',
+               'data-uri': '',
+               linkattrs: true,
+               linkcss: true,
+               'git-tag': boothubMetaTemplateTag,
+               'blob-root': "https://github.com/boothub-org/boothub-meta-template/blob/$boothubMetaTemplateTag"
 }
 
 gitPublish {
@@ -279,16 +279,16 @@ artifacts {
 configureGroovydoc(groovydoc)
 
 def configureGroovydoc(task) {
-  configure(task) {
-    docTitle "boothub-meta-template Documentation ($boothubMetaTemplateVersion)"
-    windowTitle "boothub-meta-template Documentation ($boothubMetaTemplateVersion)"
-    destinationDir file("build/docs/groovydoc")
-    if(project.configurations.hasProperty('provided')) {
-        classpath += project.configurations.provided
+    configure(task) {
+      docTitle "boothub-meta-template Documentation ($boothubMetaTemplateVersion)"
+      windowTitle "boothub-meta-template Documentation ($boothubMetaTemplateVersion)"
+      destinationDir file("build/docs/groovydoc")
+      if(project.configurations.hasProperty('provided')) {
+          classpath += project.configurations.provided
+      }
+      link "http://docs.oracle.com/javase/8/docs/api/", 'java'
+      link "http://docs.groovy-lang.org/docs/groovy-$groovyVersion/html/gapi/", "groovy"
     }
-    link "http://docs.oracle.com/javase/8/docs/api/", 'java'
-    link "http://docs.groovy-lang.org/docs/groovy-$groovyVersion/html/gapi/", "groovy"
-  }
 }
 
 def readPasswordFromConsole(title, prompt) {
@@ -305,7 +305,7 @@ def readPasswordFromConsole(title, prompt) {
 }
 
 def isPublishTask(task) {
-  task.name.startsWith('publish')
+    task.name.startsWith('publish')
 }
 
 gradle.taskGraph.whenReady { taskGraph ->
