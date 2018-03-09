@@ -1,4 +1,4 @@
---- !!org.example.myproject.context.MainContext
+--- !!{{templatePackage}}.context.MainContext
 license: Apache-2.0
 group: org.bizarre-soft
 # projectPageUrl: http://weird-app.bizarre-soft.org
