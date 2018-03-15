@@ -2,13 +2,13 @@ id: org.boothub.meta-template
 name: Meta-Template
 caption: A template for creating BootHub templates.
 version:
-  major: 0
-  minor: 1
-  patch: 4
+  major: 1
+  minor: 0
+  patch: 0
 
 minimumRequiredBootHub:
-  major: 0
-  minor: 5
+  major: 1
+  minor: 0
   patch: 0
 
 homepage: http://meta-template.boothub.org
