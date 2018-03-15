@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/boothub-org/boothub-meta-template/master.svg?label=Build)](https://travis-ci.org/boothub-org/boothub-meta-template)
 ## The Meta-Template BootHub template ##
 
-A BootHub template for creating BootHub templates.
+A [BootHub](https://boothub.org) template for creating BootHub templates.
 
 It allows you to customize the created template in accordance with the type of projects you intend to generate with it.
 The project features you can opt for while configuring the created template include:
@@ -17,3 +17,8 @@ The project features you can opt for while configuring the created template incl
 - Bintray upload support
 
 Make sure to read the [documentation](http://meta-template.boothub.org) before using this template.
+
+### Quick start
+
+You can generate a project skeleton based on the Meta-Template by using the [BootHub GUI](https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv1.0.0%2Fmeta-template-1.0.0.zip)
+or the [BootHub CLI](https://boothub.org/app#/cli).
