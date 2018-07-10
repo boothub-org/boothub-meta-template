@@ -20,5 +20,5 @@ Make sure to read the [documentation](http://meta-template.boothub.org) before u
 
 ### Quick start
 
-You can generate a project skeleton based on the Meta-Template by using the [BootHub GUI](https://boothub.org/app#/home/true/https%3A%2F%2Fgithub.com%2Fboothub-org%2Fboothub-meta-template%2Freleases%2Fdownload%2Fv1.0.0%2Fmeta-template-1.0.0.zip)
+You can generate a project skeleton based on the Meta-Template by using the [BootHub GUI](https://boothub.org/goto/org.boothub.meta-template)
 or the [BootHub CLI](https://boothub.org/app#/cli).
